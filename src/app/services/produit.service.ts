@@ -6,6 +6,7 @@ import { Produit } from '../model/produit.model';
 })
 export class ProduitService {
   produits : Produit[];
+  produit! : Produit;
   constructor() {
     this.produits=[
       {idProduit : 1, nomProduit : "PC Asus", prixProduit : 3000.600, dateCreation : new Date("01/14/2011")},
@@ -19,5 +20,41 @@ export class ProduitService {
   ajouterProduit(produit : Produit){
     this.produits.push(produit);
   }
+  supprimerProduit( prod: Produit){
+    //supprimer le produit prod du tableau produits
+    const index = this.produits.indexOf(prod, 0);
+    if (index > -1) {
+    this.produits.splice(index, 1);
+    }
+    //ou Bien
+    /* this.produits.forEach((cur, index) => {
+    if(prod.idProduit === cur.idProduit) {
+    this.produits.splice(index, 1);
+    }
+    }); */
+    }
+    consulterProduit(id:number): Produit{
+      this.produit = this.produits.find(p => p.idProduit == id)!;
+      return this.produit;
+      }
+      updateProduit(p:Produit){
+        // console.log(p);
+          this.supprimerProduit(p);
+          this.ajouterProduit(p);
+          this.trierProduits();
+        }
+        trierProduits(){
+        this.produits = this.produits.sort((n1,n2) => {
+          if (n1.idProduit! > n2.idProduit!) {
+            return 1;
+          }
+          if (n1.idProduit! < n2.idProduit!) {
+            return -1;
+          }
+          return 0;
+          });
+        }
+          
+    
   
 }
